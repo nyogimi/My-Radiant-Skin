@@ -10,6 +10,7 @@ const getStyleValue = (key, value) => {
 const Property1DefaultProperty2 = ({
   buttonText,
   continueButtonText,
+  showKeyboardArrowRightIcon,
   property1DefaultProperty2Position,
   property1DefaultProperty2Top,
   property1DefaultProperty2Left,
@@ -17,7 +18,9 @@ const Property1DefaultProperty2 = ({
   keyboardArrowRightIconWidth,
   keyboardArrowRightIconRight,
   keyboardArrowRightIconLeft,
+  buttonPrimaryBackgroundColor,
   onComponent1Press,
+  showClickMe,
 }) => {
   const property1DefaultProperty2Style = useMemo(() => {
     return {
@@ -45,27 +48,35 @@ const Property1DefaultProperty2 = ({
     keyboardArrowRightIconLeft,
   ]);
 
+  const buttonPrimaryStyle = useMemo(() => {
+    return {
+      ...getStyleValue("backgroundColor", buttonPrimaryBackgroundColor),
+    };
+  }, [buttonPrimaryBackgroundColor]);
+
   return (
     <View
       style={[styles.property1defaultProperty2, property1DefaultProperty2Style]}
       onPress={onComponent1Press}
     >
-      <View style={styles.buttonprimary}>
+      <View style={[styles.buttonprimary, buttonPrimaryStyle]}>
         <Text style={styles.signUp}>{buttonText}</Text>
       </View>
-      <Image
-        style={[styles.keyboardArrowRightIcon, keyboardArrowRightIconStyle]}
-        contentFit="cover"
-        source={continueButtonText}
-      />
+      {showKeyboardArrowRightIcon && (
+        <Image
+          style={[styles.keyboardArrowRightIcon, keyboardArrowRightIconStyle]}
+          contentFit="cover"
+          source={continueButtonText}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   signUp: {
-    fontSize: FontSize.uI16Semi_size,
-    fontWeight: "600",
+    fontSize: FontSize.uI10Semi_size,
+    fontWeight: "100",
     fontFamily: FontFamily.uI16Semi,
     color: Color.white,
     textAlign: "center",
@@ -73,10 +84,10 @@ const styles = StyleSheet.create({
   buttonprimary: {
     height: "100%",
     width: "100%",
-    top: "0%",
+    top: "40%",
     right: "0%",
     bottom: "0%",
-    left: "0%",
+    left: "5%",
     borderRadius: Border.br_81xl,
     backgroundColor: Color.colorGray_100,
     alignItems: "center",

@@ -12,6 +12,7 @@ import { CheckBox } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Picker } from "@react-native-picker/picker";
 
+
 const SignUpPage = ({ navigation }) => {
   const [isChecked1, setChecked1] = useState(false);
   const [isChecked2, setChecked2] = useState(false);
@@ -21,10 +22,9 @@ const SignUpPage = ({ navigation }) => {
   );
 
   const goToHome = () => navigation.navigate("Home");
-  const goToGettingStarted4 = () => navigation.navigate("GettingStarted4");
+  const goToGettingStarted6 = () => navigation.navigate("GettingStarted6");
   const goToGettingStarted1 = () => navigation.navigate("GettingStarted1");
   const goToLogin = () => navigation.navigate("LoginPage");
-  const goToFeed = () => navigation.navigate("Feed");
 
 
   
@@ -109,7 +109,7 @@ const SignUpPage = ({ navigation }) => {
             checked={isChecked2}
             onPress={() => setChecked2(!isChecked2)}
           />
-          <Pressable style={styles.signUpButton} onPress={goToGettingStarted4}>
+          <Pressable style={styles.signUpButton} onPress={goToGettingStarted6}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </Pressable>
         </View>

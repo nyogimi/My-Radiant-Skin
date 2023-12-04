@@ -10,10 +10,15 @@ const GettingStarted3 = () => {
 
   return (
     <View style={styles.gettingStarted3}>
-      <Text style={styles.alreadyHaveAnContainer}>
-        <Text style={styles.alreadyHaveAn}>Already have an account?</Text>
-        <Text style={styles.logIn}> Log In</Text>
-      </Text>
+      <Pressable
+        style={[styles.alreadyHaveAnContainer, styles.myParentPosition]}
+        onPress={() => navigation.navigate("LoginPage")}
+      >
+        <Text style={[styles.text, styles.textTypo]}>
+          <Text style={styles.alreadyHaveAn}>Already have an account?</Text>
+          <Text style={styles.logIn}> Log In</Text>
+        </Text>
+      </Pressable>
       <Image
         style={styles.gettingStarted3Child}
         contentFit="cover"

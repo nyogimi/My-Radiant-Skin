@@ -44,7 +44,7 @@ const LogInPage = ({ navigation }) => {
 
       <Pressable
         style={styles.logInButton}
-        onPress={() => navigation.navigate("Feed")}
+        onPress={() => navigation.navigate("HomeAltPage")}
         android_ripple={{ color: "#93867F" }}>
         <Text style={styles.buttonText}>Log in</Text>
       </Pressable>

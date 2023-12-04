@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     width: 102,
     height: 71,
     marginLeft: -51,
+    display: "flex",
   },
   groupChild: {
     right: 0,
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
   },
   loremIpsumDolor: {
     marginTop: 148,
-    marginLeft: -120,
+    marginLeft: -100,
     fontFamily: FontFamily.uI14Regular,
     width: 232,
     height: 42,

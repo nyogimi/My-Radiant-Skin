@@ -21,7 +21,7 @@ const ButtonPrimary = ({
   buttonPrimaryMarginLeft,
   onButtonPrimaryPress,
 }) => {
-  const buttonPrimaryStyle = useMemo(() => {
+  const buttonPrimary1Style = useMemo(() => {
     return {
       ...getStyleValue("position", buttonPrimaryPosition),
       ...getStyleValue("backgroundColor", buttonPrimaryBackgroundColor),
@@ -49,7 +49,7 @@ const ButtonPrimary = ({
 
   return (
     <View
-      style={[styles.buttonprimary, buttonPrimaryStyle]}
+      style={[styles.buttonprimary, buttonPrimary1Style]}
       onPress={onButtonPrimaryPress}
     >
       {showClickMe && <Text style={styles.clickMe}>{buttonText}</Text>}

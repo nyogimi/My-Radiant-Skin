@@ -25,7 +25,7 @@ const ScannedPhoto = () => {
         />
       </Pressable>
       <Text style={[styles.photoTaken, styles.photoTypo]}>Photo Taken!</Text>
-      <Pressable onPress={() => navigation.navigate("Results")}>
+      <Pressable onPress={() => navigation.navigate("HomeAltPage")}>
         <Property1DefaultProperty2
           buttonText="Continue"
           continueButtonText={require("../assets/keyboard-arrow-right.png")}
