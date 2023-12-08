@@ -2,10 +2,14 @@ CPE 026 – Emerging Technology 3 (Mobile Computing)
 
 Submitted by:
 
-Chanel, Vicent Angelo
+Chinel, Vicent Angelo
+
 Fernandez, Rhenz Nathaniel
+
 Jarabejo, Joshua P.
+
 La Madrid, Angelo H.
+
 Salonga, Nhyko Miguel
 
 
