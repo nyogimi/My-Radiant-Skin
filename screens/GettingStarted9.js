@@ -1,91 +1,126 @@
-import * as React from "react";
-import { Image } from "expo-image";
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import Ellipse2DefaultImage from "../components/Ellipse2DefaultImage";
-import { useNavigation } from "@react-navigation/native";
-import ButtonPrimary from "../components/ButtonPrimary";
-import CameraFotoIcon from "../components/CameraFotoIcon";
-import { FontSize, FontFamily, Color } from "../GlobalStyles";
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { Camera, CameraType } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
+import Button from '../components/Button'; // Updated import
+import * as FileSystem from 'expo-file-system';
+import axios from 'axios';
+import * as ImageManipulator from 'expo-image-manipulator';
+import { useNavigation } from '@react-navigation/native';
 
-const GettingStarted9 = () => {
+export default function GettingStarted9() {
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [image, setImage] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const cameraRef = useRef(null);
   const navigation = useNavigation();
 
+  useEffect(() => {
+    (async () => {
+      await MediaLibrary.requestPermissionsAsync();
+      const cameraStatus = await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+    })();
+  }, []);
+
+  const takePicture = async () => {
+    if (cameraRef) {
+      try {
+        const data = await cameraRef.current.takePictureAsync();
+        console.log(data);
+        setImage(data.uri);
+      } catch (e) {
+        console.log(e);
+        alert("Error in taking pictures!" + e.message);
+      }
+    }
+  };
+
+  const saveImage = async () => {
+    if (image) {
+      try {
+        const manipulatorResult = await ImageManipulator.manipulateAsync(
+          image,
+          [{ resize: { width: 800, height: 800 } }],
+          { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+        );
+
+        const base64Image = await FileSystem.readAsStringAsync(manipulatorResult.uri, { encoding: FileSystem.EncodingType.Base64 });
+
+        const response = await axios({
+          method: "POST",
+          url: "https://detect.roboflow.com/acnedet-v1/2",
+          params: {
+            api_key: "hKqPHWlqYLKofftkTdYD"
+          },
+          data: base64Image,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        });
+
+        console.log(response.data);
+        alert('Picture Saved!');
+        setImage(null);
+        const classNames = response.data.predictions.map(prediction => prediction.class);
+        console.log(classNames);
+        if (classNames.length === 0) {
+          navigation.navigate('NormalHome');
+        } else {
+          navigation.navigate('HomePage', { classNames });
+        }
+
+      } catch (e) {
+        console.log(e);
+        alert("Error in saving picture!" + e.message);
+      }
+    }
+  };
+
+  if (hasCameraPermission !== true) {
+    return <Text>No access to Camera!</Text>;
+  }
+
   return (
-    <View style={styles.gettingStarted9}>
-      <Image
-        style={styles.image1Icon}
-        contentFit="cover"
-        source={require("../assets/image-11.png")}
-      />
-      <Ellipse2DefaultImage
-        imageDimensions={require("../assets/ellipse-2default1.png")}
-        ellipse2DefaultIconPosition="absolute"
-        ellipse2DefaultIconWidth={292}
-        ellipse2DefaultIconHeight={419}
-        ellipse2DefaultIconMarginLeft={-146}
-        ellipse2DefaultIconTop={195}
-        ellipse2DefaultIconLeft="50%"
-        ellipse2DefaultIconOpacity={0.8}
-      />
-      <Text style={styles.placeYourFace}>{`Place your face
-inside the circle`}</Text>
-      <Pressable
-        style={styles.buttonprimaryParent}
-        onPress={() => navigation.navigate("ScannedPhoto")}
-      >
-        <ButtonPrimary
-          buttonText="Sign Up"
-          showClickMe={false}
-          buttonPrimaryPosition="absolute"
-          buttonPrimaryBackgroundColor="#dec1ff"
-          buttonPrimaryRight={0}
-          buttonPrimaryBottom={0}
-          buttonPrimaryLeft={0}
-          buttonPrimaryHeight={100}
-          buttonPrimaryOpacity={0.8}
-          buttonPrimaryWidth="unset"
-          buttonPrimaryTop="unset"
-          buttonPrimaryMarginLeft="unset"
-        />
-        <CameraFotoIcon />
-      </Pressable>
+    <View style={styles.container}>
+      {!image ? (
+        <Camera style={styles.camera} type={type} flashMode={flash} ref={cameraRef}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 30 }}>
+            <Button icon={'retweet'} onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)} />
+            <Button
+              icon={'flash'}
+              color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#f1f1f1'}
+              onPress={() => setFlash(flash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)}
+            />
+          </View>
+        </Camera>
+      ) : (
+        <Image source={{ uri: image }} style={styles.camera} />
+      )}
+      <View>
+        {image ? (
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 50 }}>
+            <Button title={"Retake Picture"} icon="retweet" onPress={() => setImage(null)} />
+            <Button title={"Save Picture"} icon="check" onPress={saveImage} />
+          </View>
+        ) : (
+          <Button title={'Take a Shot'} icon="camera" onPress={takePicture} />
+        )}
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  image1Icon: {
-    top: 1,
-    left: -140,
-    width: 648,
-    height: 973,
-    opacity: 0.9,
-    position: "absolute",
-  },
-  placeYourFace: {
-    marginLeft: -76,
-    top: 109,
-    left: "50%",
-    fontSize: FontSize.size_xl,
-    fontWeight: "600",
-    fontFamily: FontFamily.uI16Semi,
-    color: Color.white,
-    textAlign: "center",
-    position: "absolute",
-  },
-  buttonprimaryParent: {
-    right: 159,
-    bottom: 44,
-    left: 131,
-    height: 100,
-    position: "absolute",
-  },
-  gettingStarted9: {
-    backgroundColor: Color.white,
+  container: {
     flex: 1,
-    justifyContent: "center", // Center vertically
-    alignItems: "center",     // Center horizontally
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    paddingBottom: 20,
+  },
+  camera: {
+    flex: 1,
+    borderRadius: 20,
   },
 });
-
-export default GettingStarted9;

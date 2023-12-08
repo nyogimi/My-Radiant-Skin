@@ -7,7 +7,6 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
-  Pressable,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
@@ -18,12 +17,12 @@ const loadFonts = async () => {
   });
 };
 
-const ProfilePage = ({ navigation }) => {
-  const goToHomePage = () => {
-    navigation.navigate("HomePage");
+const LandingHome = ({ navigation }) => {
+  const goToLandingHome = () => {
+    navigation.navigate("LandingHome");
   };
-  const goToProfilePage = () => {
-    navigation.navigate("ProfilePage");
+  const goToLandingProfile = () => {
+    navigation.navigate("LandingProfile");
   };
 
   const goToGettingStarted6 = () => {
@@ -44,34 +43,26 @@ const ProfilePage = ({ navigation }) => {
                 source={require("../assets/logo_flat.png")}
                 style={styles.logo}
               />
+              <View style={styles.userInfo}>
+                <View>
+                  <Text style={styles.greetingText}>Good Day!</Text>
+                </View>
+              </View>
             </View>
           </ImageBackground>
         </View>
-        <View style={styles.appContent}>
-          <View style={styles.profileSection}>
-            <Text style={styles.profileHeader}>Profile</Text>
-            <View style={styles.profileContent}>
-              <View style={styles.profileInfo}>
-                <Text>Name:</Text>
-                <Text>nhyko</Text>
-              </View>
-              <View style={styles.profileInfo}>
-                <Text>Email:</Text>
-                <Text>nhyko1@gmail.com</Text>
-              </View>
-            </View>
-          </View>
-          <Pressable style={styles.logOutButton}>
-            <Text style={styles.buttonText} onPress={goToHomePage}>
-              Log out
+
+        <View style={styles.skinProblemSection}>
+            <Text style={styles.recommenderText}>
+              Scan your face by clicking the Camera button.
             </Text>
-          </Pressable>
+          <View style={styles.Gap}></View>
         </View>
       </ScrollView>
 
       {/* Bottom Toolbar */}
       <View style={styles.bottomToolbar}>
-        <TouchableOpacity onPress={goToHomePage}>
+        <TouchableOpacity onPress={goToLandingHome}>
           <Image
             source={require("../assets/icons/home-icon.png")}
             style={styles.toolbarIcons}
@@ -90,7 +81,7 @@ const ProfilePage = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={goToProfilePage}>
+        <TouchableOpacity onPress={goToLandingProfile}>
           <Image
             source={require("../assets/icons/user-icon.png")}
             style={styles.toolbarIcons}
@@ -145,49 +136,48 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 10,
   },
-  appContent: {
-    padding: 50,
-    paddingBottom: 100,
-    flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
-  },
-  profileSection: {
-    gap: 10,
-    height: 400,
-  },
-  profileHeader: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  profileContent: {
-    flex: 1,
-    gap: 10,
-    padding: 15,
-  },
-  profileInfo: {
-    flexDirection: "row",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    backgroundColor: "#F2F2F2",
-    gap: 12,
-    overflow: "hidden",
-  },
-  logOutButton: {
-    backgroundColor: "#FF0000",
-    paddingVertical: 12,
-    borderRadius: 40,
+  skinProblemSection: {
     alignItems: "center",
-    zIndex: 9,
-    top: "20%", // Adjust this value to control the vertical position
-    alignSelf: "center", // Center the button horizontally
-    width: 250,
+    justifyContent: "space-between",
+    marginTop: 50,
+    marginBottom: 100,
+    gap: 20,
   },
-  buttonText: {
-    color: "white",
+  skinProblemButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    zIndex: 1,
+    elevation: 4,
+    borderRadius: 14,
+  },
+  recommenderText: {
+    textAlign: "center",
+    marginHorizontal: 20,
     fontSize: 18,
+    color: "#333",
     fontWeight: "bold",
+  },
+  descriptionText: {
+    marginVertical: 20,
+    marginHorizontal: 10,
+    fontSize: 16,
+    color: "#555",
+  },
+  listText: {
+    fontSize: 16,
+    color: "#555",
+  },
+  boldText: {
+    fontWeight: "bold",
+    color: "#333",
+  },
+  noteText: {
+    fontSize: 14,
+    color: "#777",
+    fontStyle: "italic",
+  },
+  Gap: {
+    marginBottom: 20,
   },
   toolbarIcons: {
     height: 22,
@@ -217,10 +207,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    bottom: 12, // Adjust this value to control the overlap
-    left: "50%", // Center the icon horizontally
-    marginLeft: -20, // Adjust this value to center the icon properly
+    bottom: 12,
+    left: "50%",
+    marginLeft: -20,
   },
 });
 
-export default ProfilePage;
+export default LandingHome;

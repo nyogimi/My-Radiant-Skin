@@ -18,12 +18,12 @@ const loadFonts = async () => {
   });
 };
 
-const ProfilePage = ({ navigation }) => {
-  const goToHomePage = () => {
-    navigation.navigate("HomePage");
+const NormalProfilePage = ({ navigation }) => {
+  const goToNormalHome = () => {
+    navigation.navigate("NormalHome");
   };
-  const goToProfilePage = () => {
-    navigation.navigate("ProfilePage");
+  const goToNormalProfilePage = () => {
+    navigation.navigate("NormalProfilePage");
   };
 
   const goToGettingStarted6 = () => {
@@ -62,7 +62,7 @@ const ProfilePage = ({ navigation }) => {
             </View>
           </View>
           <Pressable style={styles.logOutButton}>
-            <Text style={styles.buttonText} onPress={goToHomePage}>
+            <Text style={styles.buttonText} onPress={goToNormalHome}>
               Log out
             </Text>
           </Pressable>
@@ -71,7 +71,7 @@ const ProfilePage = ({ navigation }) => {
 
       {/* Bottom Toolbar */}
       <View style={styles.bottomToolbar}>
-        <TouchableOpacity onPress={goToHomePage}>
+        <TouchableOpacity onPress={goToNormalHome}>
           <Image
             source={require("../assets/icons/home-icon.png")}
             style={styles.toolbarIcons}
@@ -90,7 +90,7 @@ const ProfilePage = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={goToProfilePage}>
+        <TouchableOpacity onPress={goToNormalProfilePage}>
           <Image
             source={require("../assets/icons/user-icon.png")}
             style={styles.toolbarIcons}
@@ -223,4 +223,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfilePage;
+export default NormalProfilePage;

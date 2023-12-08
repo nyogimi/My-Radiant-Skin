@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     top: "40%",
     right: "0%",
     bottom: "0%",
-    left: "5%",
+    left: ".1%",
     borderRadius: Border.br_81xl,
     backgroundColor: Color.colorGray_100,
     alignItems: "center",

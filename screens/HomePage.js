@@ -7,7 +7,6 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
-  Pressable,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
@@ -18,7 +17,7 @@ const loadFonts = async () => {
   });
 };
 
-const ProfilePage = ({ navigation }) => {
+const HomePage = ({ navigation }) => {
   const goToHomePage = () => {
     navigation.navigate("HomePage");
   };
@@ -44,29 +43,71 @@ const ProfilePage = ({ navigation }) => {
                 source={require("../assets/logo_flat.png")}
                 style={styles.logo}
               />
+              <View style={styles.userInfo}>
+                <View>
+                  <Text style={styles.greetingText}>Good Day!</Text>
+                </View>
+              </View>
             </View>
           </ImageBackground>
         </View>
-        <View style={styles.appContent}>
-          <View style={styles.profileSection}>
-            <Text style={styles.profileHeader}>Profile</Text>
-            <View style={styles.profileContent}>
-              <View style={styles.profileInfo}>
-                <Text>Name:</Text>
-                <Text>nhyko</Text>
-              </View>
-              <View style={styles.profileInfo}>
-                <Text>Email:</Text>
-                <Text>nhyko1@gmail.com</Text>
-              </View>
-            </View>
-          </View>
-          <Pressable style={styles.logOutButton}>
-            <Text style={styles.buttonText} onPress={goToHomePage}>
-              Log out
+
+        <View style={styles.skinProblemSection}>
+          <TouchableOpacity style={styles.skinProblemButtons}>
+            <Image
+              source={require("../assets/Blackheads-button.png")}
+              style={styles.skinButton}
+            />
+            <Text style={styles.recommenderText}>Cleanse your face: Use a gentle, non-comedogenic cleanser daily to remove dirt and oil. 
+                                                cleanser to remove cleanser to 
+.{" "}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.skinProblemButtons}>
+            <Image
+              source={require("../assets/DarkSpots-button.png")}
+              style={styles.skinButton}
+            />
+            <Text style={styles.recommenderText}>Exfoliation:
+                                                Incorporate a vitamin C serum to brighten and fade. dark spots.
+                                                fade dark spots </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.skinProblemButtons}>
+            <Image
+              source={require("../assets/Nodules-button.png")}
+              style={styles.skinButton}
+            />
+            <Text style={styles.recommenderText}>Exfoliation:
+                                                 Incorporate a salicylic acid exfoliant daily
+                                                 to unclog pores.  unclog pores   to unclog pores  to unclog pores </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.skinProblemButtons}>
+            <Image
+              source={require("../assets/Papules-button.png")}
+              style={styles.skinButton}
+            />
+            <Text style={styles.recommenderText}>Treatment:
+                                                Apply a targeted treatment with benzoyl peroxide for inflammatory lesions. inflammatory lesions.  inflammatory lesions.  </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.skinProblemButtons}>
+            <Image
+              source={require("../assets/Pustules-button.png")}
+              style={styles.skinButton}
+            />
+            <Text style={styles.recommenderText}>Serum:
+                                                Choose a serum with niacinamide for its anti-inflammatory properties. inflammatory lesions.  </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.skinProblemButtons}>
+            <Image
+              source={require("../assets/Whiteheads-button.png")}
+              style={styles.skinButton}
+            />
+            <Text style={styles.recommenderText}> Exfoliation:
+                                                  Use a salicylic acid exfoliant to prevent and treat whiteheads. inflammatory lesions.  inflammatory lesions. </Text>
+          </TouchableOpacity>
         </View>
+
+        <View style={styles.Gap}></View>
       </ScrollView>
 
       {/* Bottom Toolbar */}
@@ -145,49 +186,26 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 10,
   },
-  appContent: {
-    padding: 50,
-    paddingBottom: 100,
-    flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
-  },
-  profileSection: {
-    gap: 10,
-    height: 400,
-  },
-  profileHeader: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  profileContent: {
-    flex: 1,
-    gap: 10,
-    padding: 15,
-  },
-  profileInfo: {
-    flexDirection: "row",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    backgroundColor: "#F2F2F2",
-    gap: 12,
-    overflow: "hidden",
-  },
-  logOutButton: {
-    backgroundColor: "#FF0000",
-    paddingVertical: 12,
-    borderRadius: 40,
+  skinProblemSection: {
     alignItems: "center",
-    zIndex: 9,
-    top: "20%", // Adjust this value to control the vertical position
-    alignSelf: "center", // Center the button horizontally
-    width: 250,
+    justifyContent: "space-between",
+    marginTop: 50,
+    marginBottom: 100,
+    gap: 20,
   },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
+  skinProblemButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    zindex: 1,
+    elevation: 4,
+    borderRadius: 14,
+  },
+  recommenderText: {
+    position: "absolute",
+    left: "38%",
+    width: 170,
+    maxWidth: "76%",
+    textAlign: "left",
   },
   toolbarIcons: {
     height: 22,
@@ -223,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfilePage;
+export default HomePage;

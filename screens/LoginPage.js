@@ -1,140 +1,215 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   TextInput,
-  Pressable,
+  TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "./firebase-config";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import { FontFamily, Color, FontSize } from "../GlobalStyles";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-const LogInPage = ({ navigation }) => {
-  const goToGettingStarted = () => {
-    navigation.navigate("GettingStarted");
+function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [user, setUser] = useState(null);
+
+  const Stack = createStackNavigator();
+  const navigation = useNavigation();
+
+  const onSignUp = () => {
+    if (email && password) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          console.log("User signed up:", userCredential.user);
+          navigation.navigate("GettingStarted6");
+        })
+        .catch((error) => {
+          setErrorMsg(error.message);
+          Alert.alert("Error signing up", error.message);
+        });
+    } else {
+      setErrorMsg("Please enter an email and password");
+      Alert.alert("Error signing up", "Please enter an email and password");
+    }
   };
-  const goToSignUp = () => {
-    navigation.navigate("SignUp");
+
+  const onSignIn = () => {
+    if (email && password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          console.log("User signed in:", userCredential.user);
+          navigation.navigate("LandingHome");
+        })
+        .catch((error) => {
+          setErrorMsg(error.message);
+          Alert.alert("Error signing in", error.message);
+        });
+    } else {
+      setErrorMsg("Please enter an email and password");
+      Alert.alert("Error signing in", "Please enter an email and password");
+    }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <View style={styles.navigationBar}>
-      <Pressable
-        style={styles.subtitle}
-        onPress={() => navigation.navigate("GettingStarted1")}
-        android_ripple={{ color: "#BDBDBD" }}>
-        <Icon name="close" size={20} color="#BDBDBD" />
-      </Pressable>
-        <Text style={styles.title}>Log In</Text>
-      <Pressable
-        style={styles.subtitleLinks}
-        onPress={() => navigation.navigate("SignUpPage")}
-        android_ripple={{ color: "#7D70BA" }}>
-        <Text style={styles.subtitleLinks}>Sign Up</Text>
-      </Pressable>
+        <View style={[styles.myParent, styles.myParentPosition]}>
+        <Text style={[styles.my, styles.myFlexBox]}>my</Text>
+        <Text style={[styles.radiant, styles.myTypo]}>radiant</Text>
+        <Text style={[styles.skin, styles.myTypo]}>skin</Text>
       </View>
-      <View style={styles.frame}>
-        <View style={styles.fillOut}>
-          <TextInput style={styles.input} placeholder="Email" />
-          <TextInput
-            style={styles.input}
-            secureTextEntry={true}
-            placeholder="Password"
-          />
-
-      <Pressable
-        style={styles.logInButton}
-        onPress={() => navigation.navigate("HomeAltPage")}
-        android_ripple={{ color: "#93867F" }}>
-        <Text style={styles.buttonText}>Log in</Text>
-      </Pressable>
-          <View style={styles.passwordLinkContainer}>
-            <Text style={styles.subtitleLinks}>Forgot your Password?</Text>
-          </View>
-        </View>
-      </View>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+        secureTextEntry
+      />
+      {errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+      <TouchableOpacity style={styles.button} onPress={onSignIn}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={onSignUp}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-  },
-  navigationBar: {
-    flex: 1,
-    flexDirection: "row",
-    maxHeight: "10%",
-    width: "100%",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 24,
-    backgroundColor: "#fff",
-    zIndex: 1,
-  },
-  frame: {
-    flex: 1,
-    position: "relative",
-    paddingHorizontal: 40,
-    paddingTop: 20,
-    paddingBottom: 100, // Adjust the paddingBottom to provide space for the button
-  },
-  fillOut: {
-    flex: 1,
     justifyContent: "center",
-    alignContent: "center",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "black",
-    position: "absolute",
-    left: 0,
-    right: 0,
-    textAlign: "center",
-    zIndex: -1,
+    paddingHorizontal: 0,
+    borderRadius: 50,  // Set borderRadius to round the corners
+    margin: 20,       // Add margin to create space around the container
   },
   input: {
-    width: "100%",
-    height: 50,
-    borderColor: "#ccc",
-    color: "black",
+    height: 60,
+    borderColor: "gray",
     borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    marginBottom: 15,
-    fontSize: 14,
-    backgroundColor: "#F6F6F6",
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    borderRadius: 20, 
   },
+  button: {
+    backgroundColor: "#93867f",  // Use a brown color of your choice
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,  // Set borderRadius to half of the height for a round button
+    marginTop: 15,
+  },
+  
   buttonText: {
     color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  subtitle: {
     fontSize: 16,
-    color: "#BDBDBD",
-    fontWeight: "bold",
-    padding: 6,
+  },  
+  errorText: {
+    color: "red",
+    fontSize: 14,
+    marginBottom: 10,
   },
-  subtitleLinks: {
-    fontSize: 16,
-    color: "#7D70BA",
-    fontWeight: "bold",
+
+  myParentPosition: {
+    left: "50%",
+    position: "absolute",
   },
-  logInButton: {
-    backgroundColor: "#93867F",
-    paddingVertical: 12,
-    borderRadius: 40,
-    marginTop: 20,
-    alignItems: "center",
+  textTypo: {
+    fontFamily: FontFamily.uI16Semi,
+    fontWeight: "600",
   },
-  passwordLinkContainer: {
-    flexDirection: "row",
+  myFlexBox: {
     justifyContent: "center",
-    marginTop: 15,
+    alignItems: "center",
+    display: "flex",
+  },
+  myTypo: {
+    textAlign: "center",
+    fontFamily: FontFamily.lilitaOne,
+    left: "50%",
+    position: "absolute",
+    justifyContent: "center",
+  },
+  alreadyHaveAn: {
+    color: Color.colorPlum_200,
+  },
+  logIn: {
+    color: Color.colorMediumpurple_100,
+  },
+  text: {
+    marginLeft: -110,
+    textAlign: "left",
+    fontSize: FontSize.uI14Regular_size,
+  },
+  alreadyHaveAnContainer: {
+    bottom: 44,
+  },
+  my: {
+    marginLeft: -43,
+    top: 0,
+    fontSize: FontSize.size_xl,
+    width: 29,
+    textAlign: "center",
+    fontFamily: FontFamily.lilitaOne,
+    left: "50%",
+    position: "absolute",
+    color: Color.colorDarkslategray_100,
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+  },
+  radiant: {
+    top: 9,
+    fontSize: FontSize.size_13xl,
+    fontFamily: FontFamily.lilitaOne,
+    textAlign: "center",
+    marginLeft: -51,
+    color: Color.colorMediumpurple_100,
+  },
+  skin: {
+    marginLeft: -7,
+    top: 34,
+    color: Color.colorThistle,
+    fontSize: FontSize.size_13xl,
+    fontFamily: FontFamily.lilitaOne,
+    textAlign: "center",
+  },
+  myParent: {
+    top: 14,
+    width: 102,
+    height: 71,
+    marginLeft: -51,
+    display: "flex",
+    justifyContent: "center",
   },
 });
 
-export default LogInPage;
+export default LoginPage;

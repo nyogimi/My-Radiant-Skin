@@ -57,18 +57,24 @@ const ButtonPrimary = ({
   );
 };
 
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   clickMe: {
     fontSize: FontSize.uI16Semi_size,
-    fontWeight: "600",
+    fontWeight: '600',
     fontFamily: FontFamily.uI16Semi,
     color: Color.white,
-    textAlign: "center",
+    textAlign: 'center',
   },
   buttonprimary: {
     borderRadius: Border.br_81xl,
     backgroundColor: Color.greenPrimary,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: Padding.p_13xl,
     paddingVertical: Padding.p_base,
   },

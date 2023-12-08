@@ -3,12 +3,14 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import StartupPage from "./screens/StartupPage";
-import HomeAltPage from "./screens/HomeAltPage";
+import HomePage from "./screens/HomePage";
 import Property1DefaultProperty2 from "./components/Property1DefaultProperty2";
 import GettingStarted3 from "./screens/GettingStarted3";
 import GettingStarted2 from "./screens/GettingStarted2";
 import GettingStarted1 from "./screens/GettingStarted1";
 import ProfilePage from "./screens/ProfilePage";
+import NormalProfilePage from "./screens/NormalProfilePage";
+import LandingProfile from "./screens/LandingProfile";
 import SignUpPage from "./screens/SignUpPage";
 import LoginPage from "./screens/LoginPage";
 import GettingStarted4 from "./screens/GettingStarted4";
@@ -23,7 +25,8 @@ import StateInactive from "./components/StateInactive";
 import AntiAging from "./components/AntiAging";
 import GettingStarted8 from "./screens/GettingStarted8";
 import GettingStarted9 from "./screens/GettingStarted9";
-import ScannedPhoto from "./screens/ScannedPhoto";
+import NormalHome from "./screens/NormalHome";
+import LandingHome from "./screens/LandingHome";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
@@ -53,8 +56,8 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="HomeAltPage"
-              component={HomeAltPage}
+              name="HomePage"
+              component={HomePage}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -75,6 +78,16 @@ const App = () => {
             <Stack.Screen
               name="ProfilePage"
               component={ProfilePage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="NormalProfilePage"
+              component={NormalProfilePage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LandingProfile"
+              component={LandingProfile}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -118,8 +131,13 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="ScannedPhoto"
-              component={ScannedPhoto}
+              name="NormalHome"
+              component={NormalHome}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LandingHome"
+              component={LandingHome}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
